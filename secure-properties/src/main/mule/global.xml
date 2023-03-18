@@ -6,7 +6,8 @@
 	xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
@@ -39,7 +40,16 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 			password="${secure::db.mysql.pass}"
 			database="${db.mysql.dbName}" />
 	</db:config>
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="f63074fe-5cec-43cc-b3d6-63f2bef53979" file="config-secure.yaml" key="${encryptKey}" >
+	
+	
+	<secure-properties:config
+		name="Secure_Properties_Config"
+		doc:name="Secure Properties Config"
+		doc:id="f63074fe-5cec-43cc-b3d6-63f2bef53979"
+		file="config-secure.yaml"
+		key="${encryptKey}">
 		<secure-properties:encrypt algorithm="Blowfish" />
 	</secure-properties:config>
+	
+	
 </mule>
