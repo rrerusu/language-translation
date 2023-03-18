@@ -1,0 +1,1 @@
+The folders in this directory represent **Mule projects** that translate too and from languages.
