@@ -1,0 +1,12 @@
+# HTTP connection properties
+
+http:
+  port:     "8081"
+
+# MySQL Database connection properties
+
+db:
+  mysql:
+    host:   "mudb.learn.mulesoft.com"
+    port:   "3306"
+    dbName: "training"

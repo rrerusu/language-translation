@@ -46,19 +46,3 @@ target/
 .mule/**/*
 .DS_Store
 velocity.log
-.tooling-apps-cache/
-.tooling/
-
-# -------------------------- #
-# secure-properties-specific #
-# -------------------------- #
-secure-properties/target/
-secure-properties/.mule/**
-secure-properties/.mule/**/*
-secure-properties/.DS_Store
-secure-properties/velocity.log
-secure-properties/.tooling-apps-cache/
-secure-properties/.tooling/
-secure-properties/exchange-docs/
-secure-properties/.classpath
-secure-properties/.project

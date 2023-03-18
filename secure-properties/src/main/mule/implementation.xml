@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="implementationFlow" doc:id="a77d0089-1e92-4fc0-b05e-b7aef441b487" >
+		<http:listener doc:name="Listener" doc:id="0af88cf6-fec3-420d-b298-128e9ade8747" config-ref="HTTP_Listener_config" path="/translate">
+			<http:response >
+				<http:body ><![CDATA[#[output application/json
+---
+payload]]]></http:body>
+			</http:response>
+		</http:listener>
+		<db:select doc:name="Select" doc:id="6629ddbe-1880-417f-bfb1-dd1aa3276487" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM american]]></db:sql>
+		</db:select>
+		<logger level="INFO" doc:name="Logger" doc:id="9b4e6efb-e7b6-4df5-a9f7-5730629ffe79" message="#[payload]"/>
+	</flow>
+</mule>
