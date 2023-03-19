@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ac213979-53a0-4883-8e88-4bc31949d057" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="152195ec-375f-4cdf-902f-9b9929c07f96" >
+		<http:request-connection protocol="HTTPS" host="api.nlpcloud.io" port="443"/>
+	</http:request-config>
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="cde0eeeb-fca4-4af9-89a8-17de2154acea" >
+		<http:request-connection protocol="HTTPS" host="api.openai.com" port="443" />
+	</http:request-config>
+	<flow name="translateEngToSpan" doc:id="95b17ca1-77cf-4706-ad86-8f27fda85473" >
+		<http:listener doc:name="Listener" doc:id="143b0074-d22e-4e34-a39c-0c662df9a560" config-ref="HTTP_Listener_config" path="/translate" allowedMethods="POST"/>
+		<http:request method="POST" doc:name="Request" doc:id="a70b17f6-4983-44f4-accb-7b5341e0e897" config-ref="HTTP_Request_configuration" path="/v1/nllb-200-3-3b/translation">
+			<http:body ><![CDATA[#[{
+	"text":payload.'text',
+	"source":"eng_Latn",
+	"target":"spa_Latn"
+}]]]></http:body>
+			<http:headers ><![CDATA[#[output text/plain
+---
+{
+	"Authorization" : "Token sample-APIkey-ABCD1234567890",
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+		</http:request>
+		<http:request method="POST" doc:name="Request" doc:id="9bed9a40-faa5-41f7-91a5-f866677ffddc" config-ref="HTTP_Request_configuration1" path="/v1/chat/completions">
+			<http:body ><![CDATA[#[output application/json
+---
+{
+ "model": "gpt-3.5-turbo",
+ "messages": [{"role": "user", "content": "Translate ¿ Qué tal? to English"}],
+ "temperature": 0.7
+}]]]></http:body>
+			<http:headers ><![CDATA[#[output text/plain
+---
+{
+	"Authorization" : "Bearer sample-apikey-ABCD1234567890",
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="2e711e45-3367-4b52-b469-f75aae7f7c44" message="#[payload]"/>
+	</flow>
+</mule>
