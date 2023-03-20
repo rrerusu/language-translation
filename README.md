@@ -6,6 +6,13 @@ The folders in this directory represent **Mule projects** that translate too and
 
  - Testing conversion from English to Spanish using Translation API from [NLP Cloud](https://nlpcloud.com/)
  - Translating Spanish back to English using ChatGPT from [OpenAI](https://openai.com/)
+ 
+
+#### Rev 2: English-to-Spanish-to-English updates
+
+ - Fix output to return translated text and final response
+ - Replace all hard-coded values with place-holders
+ - Encrypted APIKeys
 
 ### parent-pom
 

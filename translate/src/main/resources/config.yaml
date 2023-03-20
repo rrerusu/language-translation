@@ -1,0 +1,16 @@
+# HTTP request properties for NPL Cloud connection
+nlp:
+  protocol:   "https"
+  host:       "api.nlpcloud.io"
+  port:       "443"
+  apiVersion: "v1"
+  model:      "nllb-200-3-3b"
+  resource:   "translation"
+
+# HTTP request properties for ChatGPT connection
+chatGPT:
+  protocol:   "https"
+  host:       "api.openai.com"
+  port:       "443"
+  apiVersion: "v1"
+  resource:   "chat/completions"

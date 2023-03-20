@@ -1,0 +1,7 @@
+# APIKey for NLP Cloud API connection
+nlp:
+  apiKey: "![ITCpRzKhGQnE1L/69Sx+KOTCGCtcKqMOmJ4LM0yy59Alqb283P0KVjY0ZrHXyo04]"
+
+# APIKey for ChatGPT connection
+chatGPT:
+  apiKey: "![6+QCXRPix6EF2bG32KlqGhxIabIQ0+db3A9UuQRj1lt6lhIKYNUxp3XnYVeT1pNbtKRa0SK9vnA=]"
