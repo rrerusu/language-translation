@@ -2,4 +2,8 @@
 
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="sayHello" doc:id="03367819-e1fc-47d2-b358-d7ba4a7a9a56" >
+		<set-payload value="#['Hello']" doc:name="Set Payload" doc:id="99730e54-499a-4465-b156-6a0170a022ae" />
+	</flow>
+</mule>
