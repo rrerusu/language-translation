@@ -11,6 +11,7 @@ nlp:
   apiVersion: "v1"
   model:      "nllb-200-3-3b"
   resource:   "translation"
+  url:        "${nlp.protocol}://${nlp.host}:${nlp.port}/${nlp.apiVersion}/${nlp.model}/${nlp.resource}"
 
 # HTTP request properties for ChatGPT connection
 chatGPT:
@@ -19,3 +20,4 @@ chatGPT:
   port:       "443"
   apiVersion: "v1"
   resource:   "chat/completions"
+  url:        "${chatGPT.protocol}://${chatGPT.host}:${chatGPT.port}/${chatGPT.apiVersion}/${chatGPT.resource}"

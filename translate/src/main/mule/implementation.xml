@@ -14,9 +14,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<http:listener doc:name="Listener" doc:id="143b0074-d22e-4e34-a39c-0c662df9a560" config-ref="HTTP_Listener_config" path="/translate" allowedMethods="POST" />
 		<http:request
 			method="POST"
-			doc:name="Request"
+			doc:name="Call NLP Cloud Translate API - Convert English to Spanish"
 			doc:id="a70b17f6-4983-44f4-accb-7b5341e0e897"
-			url="${nlp.protocol}://${nlp.host}:${nlp.port}/${nlp.apiVersion}/${nlp.model}/${nlp.resource}">
+			url="${nlp.url}" targetValue="#[output application/json --- read(payload, &quot;application/json&quot;).'translation_text']" target="translatedText">
 			<http:body><![CDATA[#[{
 	"text":payload.'messageToTranslate',
 	"source":"eng_Latn",
@@ -29,21 +29,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"Content-Type" : "application/json"
 }]]]></http:headers>
 		</http:request>
-		<ee:transform doc:name="Transform Message" doc:id="77005685-e895-4103-95e3-afb46f6e72bc" >
-			<ee:message >
-			</ee:message>
-      <ee:variables >
-        <ee:set-variable variableName="translatedText" ><![CDATA[%dw 2.0
-output application/json
----
-read(payload, "application/json").'translation_text']]></ee:set-variable>
-      </ee:variables>
-		</ee:transform>
 		<http:request
 			method="POST"
-			doc:name="Request"
+			doc:name="Call ChatGPT API - Convert Spanish to English"
 			doc:id="9bed9a40-faa5-41f7-91a5-f866677ffddc"
-			url="${chatGPT.protocol}://${chatGPT.host}:${chatGPT.port}/${chatGPT.apiVersion}/${chatGPT.resource}">
+			url="${chatGPT.url}">
 			<http:body><![CDATA[#[output application/json
 ---
 {
