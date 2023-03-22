@@ -1,3 +1,8 @@
+# HTTP listener configuration
+http:
+  host:       "0.0.0.0"
+  port:       "8081"
+
 # HTTP request properties for NPL Cloud connection
 nlp:
   protocol:   "https"

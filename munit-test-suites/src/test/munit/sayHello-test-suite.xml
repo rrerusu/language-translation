@@ -13,7 +13,7 @@
 			<flow-ref doc:name="sayHello" doc:id="b8f9a77d-7f62-4956-8edf-787ff21abf03" name="sayHello" />
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-equals doc:name="Assert equals: Validate if payload returns hello" doc:id="03e04933-9e0f-43d5-aabe-356c722db20f" actual="#[message.payload]" expected="#['Jello']" message='#["FAILED: expeceted Jello, but found $(payload) instead."]'/>
+			<munit-tools:assert-equals doc:name="Assert equals: Validate if payload returns hello" doc:id="03e04933-9e0f-43d5-aabe-356c722db20f" actual="#[message.payload]" expected="#['Hello']" message='#["FAILED: expeceted Hello, but found $(payload) instead."]'/>
 		</munit:validation>
 	</munit:test>
 
