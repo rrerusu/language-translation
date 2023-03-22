@@ -35,7 +35,7 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
     doc:name="Secure Properties Config"
     doc:id="6d93c00a-8dac-4e1d-965e-faedd66f78bb"
     file="config-secure.yaml"
-    key="sample-key">
+    key="${encryptPassword}">
     <secure-properties:encrypt algorithm="Blowfish" />
   </secure-properties:config>
   

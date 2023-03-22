@@ -31,12 +31,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</http:request>
 		<ee:transform doc:name="Transform Message" doc:id="77005685-e895-4103-95e3-afb46f6e72bc" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
-var translatedText = read(payload, "application/json").'translation_text'
----
-read(payload, "application/json")]]></ee:set-payload>
 			</ee:message>
+      <ee:variables >
+        <ee:set-variable variableName="translatedText" ><![CDATA[%dw 2.0
+output application/json
+---
+read(payload, "application/json").'translation_text']]></ee:set-variable>
+      </ee:variables>
 		</ee:transform>
 		<http:request
 			method="POST"
@@ -47,7 +48,7 @@ read(payload, "application/json")]]></ee:set-payload>
 ---
 {
  "model": "gpt-3.5-turbo",
- "messages": [{"role": "user", "content": "Translate " ++ payload.'translation_text' as String ++ " to English"}],
+ "messages": [{"role": "user", "content": "Translate " ++ vars.translatedText as String ++ " to English"}],
  "temperature": 0.7
 }]]]></http:body>
 			<http:headers><![CDATA[#[output text/plain
@@ -63,8 +64,8 @@ read(payload, "application/json")]]></ee:set-payload>
 output application/json
 ---
 {
-	translatedResponse: vars.translatedText,
-	response: payload.choices[0].message.content as String replace "\n\n" with ""
+	"toSpanish-fromNLPCloudAPI": vars.translatedText,
+	"backToEnglish-fromChatGPT": payload.choices[0].message.content as String replace "\n\n" with ""
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
