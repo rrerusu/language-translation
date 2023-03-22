@@ -13,6 +13,14 @@ nlp:
   resource:   "translation"
   url:        "${nlp.protocol}://${nlp.host}:${nlp.port}/${nlp.apiVersion}/${nlp.model}/${nlp.resource}"
 
+# HTTP request properties for Google Translate connection
+google:
+  protocol:   "https"
+  host:       "translate.googleapis.com"
+  port:       "443"
+  resource:   "translate_a/single"
+  url:        "${google.protocol}://${google.host}:${google.port}/${google.resource}"
+
 # HTTP request properties for ChatGPT connection
 chatGPT:
   protocol:   "https"
