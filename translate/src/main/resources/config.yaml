@@ -39,3 +39,12 @@ chatGPT:
   apiVersion: "v1"
   resource:   "chat/completions"
   url:        "${chatGPT.protocol}://${chatGPT.host}:${chatGPT.port}/${chatGPT.apiVersion}/${chatGPT.resource}"
+
+# HTTP request properties for Lecto API connection
+lecto:
+  protocol:   "https"
+  host:       "api.lecto.ai"
+  port:       "443"
+  apiVersion: "v1"
+  resource:   "translate/text"
+  url:        "${lecto.protocol}://${lecto.host}:${lecto.port}/${lecto.apiVersion}/${lecto.resource}"

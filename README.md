@@ -14,6 +14,10 @@ The folders in this directory represent **Mule projects** that translate too and
  - Replace all hard-coded values with place-holders
  - Encrypted APIKeys
 
+#### Rev 3: English-to-Spanish-to-English updates
+
+ - Access to Google Translate, Translate.com, and Lecto Translate APIs
+
 ### parent-pom
 
 Created **parent-pom.xml** to define properties, plugins, dependencies, repositories, and plugin repositories that *all projects* share.

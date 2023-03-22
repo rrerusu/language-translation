@@ -9,3 +9,7 @@ chatGPT:
 # APIKey for TranslateDotCom API connection
 translate:
   apiKey: "![/LeKiGeTu861wfIGm9LqKw==]"
+
+# APIKey for Lecto API connection
+lecto:
+  apiKey: "![LDrLCThbBr28Lnr+JuL1boTiSFbut6rMApy/dKOYtMY=]"
