@@ -21,6 +21,16 @@ google:
   resource:   "translate_a/single"
   url:        "${google.protocol}://${google.host}:${google.port}/${google.resource}"
 
+
+# HTTP request properties for TranslateDotCom
+translate:
+  protocol:   "https"
+  host:       "translation-api.translate.com"
+  port:       "443"
+  resource:   "translate"
+  apiVersion: "v1"
+  url:        "${translate.protocol}://${translate.host}:${translate.port}/${translate.resource}/${translate.apiVersion}/mt"
+
 # HTTP request properties for ChatGPT connection
 chatGPT:
   protocol:   "https"

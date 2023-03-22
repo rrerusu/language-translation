@@ -5,3 +5,7 @@ nlp:
 # APIKey for ChatGPT connection
 chatGPT:
   apiKey: "![6+QCXRPix6EF2bG32KlqGhxIabIQ0+db3A9UuQRj1lt6lhIKYNUxp3XnYVeT1pNbtKRa0SK9vnA=]"
+
+# APIKey for TranslateDotCom API connection
+translate:
+  apiKey: "![/LeKiGeTu861wfIGm9LqKw==]"
