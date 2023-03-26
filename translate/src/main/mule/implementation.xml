@@ -8,7 +8,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<flow
+	<flow name="translate_main" doc:id="b2714d38-51fc-4f2a-aa7e-2eec93960e3d" >
+    <http:listener doc:name="Listener" doc:id="33d626b1-8ae8-49ec-91f8-a95b09215ad8" config-ref="HTTP_Listener_config" path="/translate"/>
+    <logger level="INFO" doc:name="Logger" doc:id="67f0c453-4a64-4842-9f2b-24dfbab44a46" />
+  </flow>
+  <flow
 		name="translateUsingNLPCloudAPI"
 		doc:id="95b17ca1-77cf-4706-ad86-8f27fda85473">
 		<http:listener doc:name="Listener" doc:id="143b0074-d22e-4e34-a39c-0c662df9a560" config-ref="HTTP_Listener_config" path="/nlp" allowedMethods="POST" />
@@ -73,8 +77,8 @@ output application/json
     <logger level="INFO" doc:name="Logger" doc:id="ad78d758-0f44-47e9-984c-77107e392ded" />
   </flow>
   <flow name="translateUsingTranslateDotCom" doc:id="55020f9d-42ed-43e6-841d-1757df81dbec">
-    <http:listener doc:name="Listener" doc:id="2f990699-75c3-46a9-b844-0fefeaef8857" config-ref="HTTP_Listener_config" path="/translate"/>
-    <http:request method="POST" doc:name="Request" doc:id="c80862d3-9324-4611-95d0-096194b94b96" url="${translate.url}" target="translatedText" targetValue="#[payload.'translation']">
+    <http:listener doc:name="Listener" doc:id="2f990699-75c3-46a9-b844-0fefeaef8857" config-ref="HTTP_Listener_config" path="/translatedotcom"/>
+    <http:request method="POST" doc:name="Call TranslateDotCom API - Convert English to Spanish" doc:id="c80862d3-9324-4611-95d0-096194b94b96" url="${translate.url}" target="translatedText" targetValue="#[payload.'translation']">
       <http:headers ><![CDATA[#[{
 	accept: "*/*",
 	"x-api-key": p("secure::translate.apiKey"),
@@ -103,7 +107,7 @@ output application/json
   </flow>
   <flow name="translateUsingLectoAPI" doc:id="3ad26760-81ee-4a88-a4a6-fd5ac363762c" >
     <http:listener doc:name="Listener" doc:id="2285f494-5b9c-4c3b-99f3-1949e67de102" config-ref="HTTP_Listener_config" path="/lecto" allowedMethods="POST"/>
-    <http:request method="POST" doc:name="Request" doc:id="97631030-3c2b-4e38-9909-da5df64555a7" url="${lecto.url}" target="translatedText" targetValue='#[payload.translations[0].translated joinBy "  "]'>
+    <http:request method="POST" doc:name="Call Lecto API - Convert English to Spanish" doc:id="97631030-3c2b-4e38-9909-da5df64555a7" url="${lecto.url}" target="translatedText" targetValue='#[payload.translations[0].translated joinBy "  "]'>
       <http:body ><![CDATA[#[{
 	"texts": [payload.'messageToTranslate'],
                           "to": ["es"],
