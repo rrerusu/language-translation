@@ -1,0 +1,8 @@
+{
+  "source-language": "en",
+  "source-text": "Hello world!",
+  "api-vendor": "Lecto API",
+  "target-language": "es",
+  "translated-text": "¡Hola mundo!",
+  "retranslation-from-ChatGPT": "Hello world!"
+}

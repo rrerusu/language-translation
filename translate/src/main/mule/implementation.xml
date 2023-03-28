@@ -8,9 +8,41 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<flow name="translate_main" doc:id="b2714d38-51fc-4f2a-aa7e-2eec93960e3d" >
+  <flow name="translate_main" doc:id="b2714d38-51fc-4f2a-aa7e-2eec93960e3d" >
     <http:listener doc:name="Listener" doc:id="33d626b1-8ae8-49ec-91f8-a95b09215ad8" config-ref="HTTP_Listener_config" path="/translate"/>
-    <logger level="INFO" doc:name="Logger" doc:id="67f0c453-4a64-4842-9f2b-24dfbab44a46" />
+    <ee:transform doc:name="Capture input data" doc:id="3ff19114-f2d3-4290-be9f-1cf1924c4a9a" >
+      <ee:message >
+      </ee:message>
+      <ee:variables >
+        <ee:set-variable variableName="inputData" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	source_lang: message.attributes.queryParams.'source' as String,
+	target_lang: message.attributes.queryParams.'target' as String,
+	source_text: message.attributes.queryParams.'textToTranslate' as String,
+	api_provider: message.attributes.uriParams.'vendor' as String
+}]]></ee:set-variable>
+      </ee:variables>
+    </ee:transform>
+    <flow-ref doc:name="setSourceAndTargetLocales" doc:id="40719e65-d4e2-4b36-b1cf-d6afc73f206a" name="setSourceAndTargetLocales" />
+    <logger level="INFO" doc:name="Logger" doc:id="b54201c9-bcba-48e9-a022-12fca659adcf" message="#[output application/json&#10;---&#10;vars.inputData]"/>
+    <choice doc:name="Choice" doc:id="b0ff2815-cfdd-4d6e-ac8e-63ddfe85ba08" >
+      <when expression='#[vars.inputData.api_provider contains "NLP"]'>
+        <flow-ref doc:name="translateUsingNLPCloudAPI" doc:id="011fb763-5954-4416-87f5-33b6ca68b4d5" name="translateUsingNLPCloudAPI"/>
+      </when>
+      <when expression='#[vars.inputData.api_provider contains "Google"]'>
+        <flow-ref doc:name="translateUsingGoogleAPI" doc:id="4c3e8f16-4882-4920-8c9a-64961cdf9061" name="translateUsingGoogleAPI"/>
+      </when>
+    </choice>
+    <ee:transform doc:name="Transform Message" doc:id="9be55f50-d5ca-42c4-aa26-a0b384b32a82" >
+      <ee:message >
+        <ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+      </ee:message>
+    </ee:transform>
   </flow>
   <flow
 		name="translateUsingNLPCloudAPI"
@@ -56,10 +88,10 @@ output application/json
     <http:request method="POST" doc:name="Call Google Translate API - Convert English to Spanish" doc:id="3ca84f28-a00d-4a30-bb4c-783d4a4dc764" url="${google.url}" target="translatedText" targetValue="#[payload[0][0][0]]">
       <http:query-params ><![CDATA[#[{
 	client: "gtx",
-	sl: "en",
-	tl: "es",
+	sl: vars.sourceLocale,
+	tl: vars.targetLocale,
 	dt: "t",
-	q: payload.'messageToTranslate'
+	q: vars.inputData.'source_text'
 }]]]></http:query-params>
     </http:request>
     <flow-ref doc:name="callChatGPT" doc:id="55f319c3-6835-4c1d-bb0e-9afa2b7ed893" name="callChatGPT"/>
@@ -69,12 +101,16 @@ output application/json
 output application/json
 ---
 {
-	"toSpanish-fromGoogleTranslate": vars.translatedText,
-	"backToEnglish-fromChatGPT": payload.choices[0].message.content as String replace "\n\n" with ""
+  "source-language": vars.inputData.'source_lang',
+  "source-text": vars.inputData.'source_text',
+  "api-vendor": vars.inputData.'api_provider',
+  "target-language": vars.inputData.'target_lang',
+  "translated-text": vars.translatedText,
+  "retranslation-from-ChatGPT": payload.choices[0].message.content as String replace "\n\n" with ""
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-    <logger level="INFO" doc:name="Logger" doc:id="ad78d758-0f44-47e9-984c-77107e392ded" />
+    <logger level="INFO" doc:name="Logger" doc:id="ad78d758-0f44-47e9-984c-77107e392ded" message="#[payload]"/>
   </flow>
   <flow name="translateUsingTranslateDotCom" doc:id="55020f9d-42ed-43e6-841d-1757df81dbec">
     <http:listener doc:name="Listener" doc:id="2f990699-75c3-46a9-b844-0fefeaef8857" config-ref="HTTP_Listener_config" path="/translatedotcom"/>
@@ -149,5 +185,9 @@ output application/json
 	"Content-Type" : "application/json"
 }]]]></http:headers>
 		</http:request>
+  </sub-flow>
+  <sub-flow name="setSourceAndTargetLocales" doc:id="87773dbd-0b29-435e-ae0f-e850f6f1d15b">
+    <set-variable value="#[import setLocale from myModule::utils&#10;---&#10;setLocale(vars.inputData.'source_lang')]" doc:name="sourceLocale" doc:id="1baa958f-9533-440a-8a2c-6e7c452fc8f6" variableName="sourceLocale" />
+    <set-variable value="#[import setLocale from myModule::utils&#10;---&#10;setLocale(vars.inputData.'target_lang')]" doc:name="targetLocale" doc:id="bb0234ff-7164-4066-9498-95eaf63d762e" variableName="targetLocale" />
   </sub-flow>
 </mule>

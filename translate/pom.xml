@@ -9,7 +9,7 @@
         <relativePath>../parent-pom/pom.xml</relativePath>
     </parent>
 
-    <groupId>com.mycompany</groupId>
+    <groupId>com.trust.re</groupId>
     <artifactId>translate-api</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>mule-application</packaging>
@@ -23,6 +23,9 @@
             <plugin>
                 <groupId>org.mule.tools.maven</groupId>
                 <artifactId>mule-maven-plugin</artifactId>
+                <configuration>
+                  <sharedLibraries combine.self="override"/>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -44,20 +47,16 @@
             <classifier>mule-plugin</classifier>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>b59611a2-3e3f-4e84-b99a-b45bd45aed81</groupId>
+            <groupId>${my.anypoint.platform.groupid}</groupId>
             <artifactId>translate-api</artifactId>
-            <version>1.0.0</version>
+            <version>${translate.api.version}</version>
             <classifier>raml</classifier>
             <type>zip</type>
         </dependency>
         <dependency>
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-apikit-module</artifactId>
-            <version>1.8.1</version>
+            <version>${apikit.module.version}</version>
             <classifier>mule-plugin</classifier>
         </dependency>
     </dependencies>

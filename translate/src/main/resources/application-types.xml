@@ -1,4 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
-  <types:catalog/>
+  <types:catalog>
+    <types:type name="single-api-result" format="json">
+      <types:shape format="weave" example="examples/single-api-result.json"><![CDATA[%dw 2.0
+
+type single_api_result = {|
+  "source-language": String, 
+  "source-text": String, 
+  "api-vendor": String, 
+  "target-language": String, 
+  "translated-text": String, 
+  "retranslation-from-ChatGPT": String
+|} {"example": "{\\\"source-language\\\":\\\"en\\\",\\\"source-text\\\":\\\"Hello world!\\\",\\\"api-vendor\\\":\\\"Lecto API\\\",\\\"target-language\\\":\\\"es\\\",\\\"translated-text\\\":\\\"\u00A1Hola mundo!\\\",\\\"retranslation-from-ChatGPT\\\":\\\"Hello world!\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#3ff19114-f2d3-4290-be9f-1cf1924c4a9a"/>
+  <types:enrichment select="#3a925d3d-f2d5-42fd-8617-942af64d5b66">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="single-api-result"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
 </types:mule>

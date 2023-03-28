@@ -23,11 +23,14 @@
 		<maven.clean.plugin.version>3.2.0</maven.clean.plugin.version>
 		
 		<!-- Dependency versions -->
+        <my.anypoint.platform.groupid>b59611a2-3e3f-4e84-b99a-b45bd45aed81</my.anypoint.platform.groupid>
+        <translate.api.version>1.0.0</translate.api.version>
 		<mule.http.connector.version>1.7.3</mule.http.connector.version>
 		<mule.sockets.connector.version>1.2.3</mule.sockets.connector.version>
 		<mule.db.connector.version>1.14.0</mule.db.connector.version>
 		<mysql.connector.java.version>8.0.30</mysql.connector.java.version>
 		<mule.secure.configuration.property.module.version>1.2.5</mule.secure.configuration.property.module.version>
+        <apikit.module.version>1.8.1</apikit.module.version>
 	</properties>
 
 	<build>
