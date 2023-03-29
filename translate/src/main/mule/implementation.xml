@@ -72,7 +72,6 @@ payload]]></ee:set-payload>
 }]]]></http:headers>
 		</http:request>
     <flow-ref doc:name="callChatGPT" doc:id="e9d47849-6dc1-4f48-8db2-98efbb53c96c" name="callChatGPT"/>
-    <flow-ref doc:name="createOutputData" doc:id="4979c317-90ff-4aef-84e6-a62cf2472af1" name="createOutputData" />
     <logger
 			level="INFO"
 			doc:name="Logger"
