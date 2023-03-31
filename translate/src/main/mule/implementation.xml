@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mule
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+  xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+  xmlns:http="http://www.mulesoft.org/schema/mule/http"
+  xmlns="http://www.mulesoft.org/schema/mule/core"
+  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-  <flow name="translate_main" doc:id="b2714d38-51fc-4f2a-aa7e-2eec93960e3d" >
-    <http:listener doc:name="Listener" doc:id="33d626b1-8ae8-49ec-91f8-a95b09215ad8" config-ref="HTTP_Listener_config" path="/translate"/>
-    <ee:transform doc:name="Capture input data" doc:id="3ff19114-f2d3-4290-be9f-1cf1924c4a9a" >
-      <ee:message >
+  <flow
+    name="translate_main"
+    doc:id="b2714d38-51fc-4f2a-aa7e-2eec93960e3d">
+    <http:listener
+      doc:name="Listener"
+      doc:id="33d626b1-8ae8-49ec-91f8-a95b09215ad8"
+      config-ref="HTTP_Listener_config"
+      path="/translate" />
+    <ee:transform
+      doc:name="Capture input data"
+      doc:id="3ff19114-f2d3-4290-be9f-1cf1924c4a9a">
+      <ee:message>
       </ee:message>
-      <ee:variables >
-        <ee:set-variable variableName="inputData" ><![CDATA[%dw 2.0
+      <ee:variables>
+        <ee:set-variable variableName="inputData"><![CDATA[%dw 2.0
 output application/java
 ---
 {
@@ -25,25 +34,49 @@ output application/java
 }]]></ee:set-variable>
       </ee:variables>
     </ee:transform>
-    <flow-ref doc:name="setSourceAndTargetLocales" doc:id="40719e65-d4e2-4b36-b1cf-d6afc73f206a" name="setSourceAndTargetLocales" />
-    <logger level="INFO" doc:name="Logger" doc:id="b54201c9-bcba-48e9-a022-12fca659adcf" message="#[output application/json&#10;---&#10;vars.inputData]"/>
-    <choice doc:name="Choice" doc:id="b0ff2815-cfdd-4d6e-ac8e-63ddfe85ba08" >
-      <when expression='#[vars.inputData.api_provider contains "NLP"]'>
-        <flow-ref doc:name="translateUsingNLPCloudAPI" doc:id="011fb763-5954-4416-87f5-33b6ca68b4d5" name="translateUsingNLPCloudAPI"/>
-      </when>
+    <flow-ref
+      doc:name="setSourceAndTargetLocales"
+      doc:id="40719e65-d4e2-4b36-b1cf-d6afc73f206a"
+      name="setSourceAndTargetLocales" />
+    <logger
+      level="INFO"
+      doc:name="Logger"
+      doc:id="b54201c9-bcba-48e9-a022-12fca659adcf"
+      message="#[output application/json&#10;---&#10;vars.inputData]" />
+    <choice
+      doc:name="Choice"
+      doc:id="b0ff2815-cfdd-4d6e-ac8e-63ddfe85ba08">
+      
       <when expression='#[vars.inputData.api_provider contains "Google"]'>
-        <flow-ref doc:name="translateUsingGoogleAPI" doc:id="4c3e8f16-4882-4920-8c9a-64961cdf9061" name="translateUsingGoogleAPI"/>
+        <flow-ref
+          doc:name="translateUsingGoogleAPI"
+          doc:id="4c3e8f16-4882-4920-8c9a-64961cdf9061"
+          name="translateUsingGoogleAPI" />
       </when>
       <when expression='#[vars.inputData.api_provider == "Translate.com"]'>
-        <flow-ref doc:name="translateUsingTranslateDotCom" doc:id="982d4a9d-ea81-46c4-9a94-bb8f6243edbc" name="translateUsingTranslateDotCom"/>
+        <flow-ref
+          doc:name="translateUsingTranslateDotCom"
+          doc:id="982d4a9d-ea81-46c4-9a94-bb8f6243edbc"
+          name="translateUsingTranslateDotCom" />
+      </when>
+      <when expression='#[vars.inputData.api_provider contains "NLP"]'>
+        <flow-ref
+          doc:name="translateUsingNLPCloudAPI"
+          doc:id="44042bef-01ac-4df4-977a-c592bd4a993e"
+          name="translateUsingNLPCloudAPI" />
       </when>
       <when expression='#[vars.inputData.api_provider contains "Lecto"]'>
-        <flow-ref doc:name="translateUsingLectoAPI" doc:id="85381df8-8472-4ac1-92b7-517b5b6c34f9" name="translateUsingLectoAPI"/>
+        <flow-ref
+          doc:name="translateUsingLectoAPI"
+          doc:id="85381df8-8472-4ac1-92b7-517b5b6c34f9"
+          name="translateUsingLectoAPI" />
       </when>
     </choice>
-    <ee:transform doc:name="Transform Message" doc:id="9be55f50-d5ca-42c4-aa26-a0b384b32a82" >
-      <ee:message >
-        <ee:set-payload ><![CDATA[%dw 2.0
+    <ee:transform
+      doc:name="Transform Message"
+      doc:id="9be55f50-d5ca-42c4-aa26-a0b384b32a82">
+      <ee:message>
+        <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 payload]]></ee:set-payload>
@@ -51,37 +84,22 @@ payload]]></ee:set-payload>
     </ee:transform>
   </flow>
   <flow
-		name="translateUsingNLPCloudAPI"
-		doc:id="95b17ca1-77cf-4706-ad86-8f27fda85473">
-		<http:listener doc:name="Listener" doc:id="143b0074-d22e-4e34-a39c-0c662df9a560" config-ref="HTTP_Listener_config" path="/nlp" allowedMethods="POST" />
-		<http:request
-			method="POST"
-			doc:name="Call NLP Cloud Translate API - Convert English to Spanish"
-			doc:id="a70b17f6-4983-44f4-accb-7b5341e0e897"
-			url="${nlp.url}" targetValue="#[output application/json --- read(payload, &quot;application/json&quot;).'translation_text']" target="translatedText">
-			<http:body><![CDATA[#[{
-	"text": vars.inputData.'source_text',
-	"source":"eng_Latn",
-	"target":"spa_Latn"
-}]]]></http:body>
-			<http:headers><![CDATA[#[output text/plain
----
-{
-	"Authorization": "Token " ++ p("secure::nlp.apiKey"),
-	"Content-Type":  "application/json"
-}]]]></http:headers>
-		</http:request>
-    <flow-ref doc:name="callChatGPT" doc:id="e9d47849-6dc1-4f48-8db2-98efbb53c96c" name="callChatGPT"/>
-    <logger
-			level="INFO"
-			doc:name="Logger"
-			doc:id="2e711e45-3367-4b52-b469-f75aae7f7c44"
-			message="#[payload]" />
-	</flow>
-  <flow name="translateUsingGoogleAPI" doc:id="a0e7b012-aa0d-4b61-9e75-0d9e6e60ed2f">
-    <http:listener doc:name="Listener" doc:id="243cdd2e-5da5-4dc3-8e09-0fa352244d84" config-ref="HTTP_Listener_config" path="/google" allowedMethods="POST"/>
-    <http:request method="POST" doc:name="Call Google Translate API - Convert English to Spanish" doc:id="3ca84f28-a00d-4a30-bb4c-783d4a4dc764" url="${google.url}" target="translatedText" targetValue="#[payload[0][0][0]]">
-      <http:query-params ><![CDATA[#[{
+    name="translateUsingGoogleAPI"
+    doc:id="a0e7b012-aa0d-4b61-9e75-0d9e6e60ed2f">
+    <http:listener
+      doc:name="Listener"
+      doc:id="243cdd2e-5da5-4dc3-8e09-0fa352244d84"
+      config-ref="HTTP_Listener_config"
+      path="/google"
+      allowedMethods="POST" />
+    <http:request
+      method="POST"
+      doc:name="Call Google Translate API - Convert English to Spanish"
+      doc:id="3ca84f28-a00d-4a30-bb4c-783d4a4dc764"
+      url="${google.url}"
+      target="translatedText"
+      targetValue="#[payload[0][0][0]]">
+      <http:query-params><![CDATA[#[{
 	client: "gtx",
 	sl:     vars.sourceLocale,
 	tl:     vars.targetLocale,
@@ -89,50 +107,122 @@ payload]]></ee:set-payload>
 	q:      vars.inputData.'source_text'
 }]]]></http:query-params>
     </http:request>
-    <flow-ref doc:name="callChatGPT" doc:id="55f319c3-6835-4c1d-bb0e-9afa2b7ed893" name="callChatGPT"/>
-    <logger level="INFO" doc:name="Logger" doc:id="ad78d758-0f44-47e9-984c-77107e392ded" message="#[payload]"/>
+    <flow-ref
+      doc:name="callChatGPT"
+      doc:id="55f319c3-6835-4c1d-bb0e-9afa2b7ed893"
+      name="callChatGPT" />
+    <logger
+      level="INFO"
+      doc:name="Logger"
+      doc:id="ad78d758-0f44-47e9-984c-77107e392ded"
+      message="#[payload]" />
   </flow>
-  <flow name="translateUsingTranslateDotCom" doc:id="55020f9d-42ed-43e6-841d-1757df81dbec">
-    <http:listener doc:name="Listener" doc:id="2f990699-75c3-46a9-b844-0fefeaef8857" config-ref="HTTP_Listener_config" path="/translatedotcom"/>
-    <http:request method="POST" doc:name="Call TranslateDotCom API - Convert English to Spanish" doc:id="c80862d3-9324-4611-95d0-096194b94b96" url="${translate.url}" target="translatedText" targetValue="#[payload.'translation']">
-      <http:headers ><![CDATA[#[{
+  <flow
+    name="translateUsingTranslateDotCom"
+    doc:id="55020f9d-42ed-43e6-841d-1757df81dbec">
+    <http:listener
+      doc:name="Listener"
+      doc:id="2f990699-75c3-46a9-b844-0fefeaef8857"
+      config-ref="HTTP_Listener_config"
+      path="/translatedotcom" />
+    <http:request
+      method="POST"
+      doc:name="Call TranslateDotCom API - Convert English to Spanish"
+      doc:id="c80862d3-9324-4611-95d0-096194b94b96"
+      url="${translate.url}"
+      target="translatedText"
+      targetValue="#[payload.'translation']">
+      <http:headers><![CDATA[#[{
 	accept:         "*/*",
 	"x-api-key":    p("secure::translate.apiKey"),
 	"Content-Type": "application/x-www-form-urlencoded",
 	"X-CSRF-TOKEN": ""
 }]]]></http:headers>
-      <http:query-params ><![CDATA[#[{
+      <http:query-params><![CDATA[#[{
 	source_language:      vars.sourceLocale,
 	translation_language: vars.targetLocale,
 	text:                 vars.inputData.'source_text'
 }]]]></http:query-params>
     </http:request>
-    <flow-ref doc:name="callChatGPT" doc:id="d76d40e8-4059-40d8-92bb-053bdf16a102" name="callChatGPT"/>
-    <logger level="INFO" doc:name="Logger" doc:id="c54e34e0-e42f-4222-a6da-d8e9b5135454" message="#[payload]"/>
+    <flow-ref
+      doc:name="callChatGPT"
+      doc:id="d76d40e8-4059-40d8-92bb-053bdf16a102"
+      name="callChatGPT" />
+    <logger
+      level="INFO"
+      doc:name="Logger"
+      doc:id="c54e34e0-e42f-4222-a6da-d8e9b5135454"
+      message="#[payload]" />
   </flow>
-  <flow name="translateUsingLectoAPI" doc:id="3ad26760-81ee-4a88-a4a6-fd5ac363762c" >
-    <http:listener doc:name="Listener" doc:id="2285f494-5b9c-4c3b-99f3-1949e67de102" config-ref="HTTP_Listener_config" path="/lecto" allowedMethods="POST"/>
-    <http:request method="POST" doc:name="Call Lecto API - Convert English to Spanish" doc:id="97631030-3c2b-4e38-9909-da5df64555a7" url="${lecto.url}" target="translatedText" targetValue='#[payload.translations[0].translated joinBy "  "]'>
-      <http:body ><![CDATA[#[output application/json
+  <flow name="translateUsingNLPCloudAPI" doc:id="95b17ca1-77cf-4706-ad86-8f27fda85473">
+    <http:listener doc:name="Listener" doc:id="143b0074-d22e-4e34-a39c-0c662df9a560" config-ref="HTTP_Listener_config" path="/nlp" allowedMethods="POST" />
+    <http:request method="POST" doc:name="Call NLP Cloud Translate API - Convert English to Spanish" doc:id="a70b17f6-4983-44f4-accb-7b5341e0e897" url="${nlp.url}" targetValue="#[output application/json --- read(payload, &quot;application/json&quot;).'translation_text']" target="translatedText">
+      <http:body><![CDATA[#[import setLocaleNLP from myModule::utils
+output application/json
+---
+{
+	"text": vars.inputData.'source_text',
+	"source": setLocaleNLP(vars.inputData.source_lang),
+	"target": setLocaleNLP(vars.inputData.target_lang)
+}]]]></http:body>
+      <http:headers><![CDATA[#[output text/plain
+---
+{
+	"Authorization": "Token " ++ p("secure::nlp.apiKey"),
+	"Content-Type":  "application/json"
+}]]]></http:headers>
+    </http:request>
+    <flow-ref doc:name="callChatGPT" doc:id="e9d47849-6dc1-4f48-8db2-98efbb53c96c" name="callChatGPT" />
+    <logger level="INFO" doc:name="Logger" doc:id="2e711e45-3367-4b52-b469-f75aae7f7c44" message="#[payload]" />
+  </flow>
+  <flow
+    name="translateUsingLectoAPI"
+    doc:id="3ad26760-81ee-4a88-a4a6-fd5ac363762c">
+    <http:listener
+      doc:name="Listener"
+      doc:id="2285f494-5b9c-4c3b-99f3-1949e67de102"
+      config-ref="HTTP_Listener_config"
+      path="/lecto"
+      allowedMethods="POST" />
+    <http:request
+      method="POST"
+      doc:name="Call Lecto API - Convert English to Spanish"
+      doc:id="97631030-3c2b-4e38-9909-da5df64555a7"
+      url="${lecto.url}"
+      target="translatedText"
+      targetValue='#[payload.translations[0].translated joinBy "  "]'>
+      <http:body><![CDATA[#[output application/json
 ---
 {
 	"texts":    [vars.inputData.'source_text'],
 	"to":       [vars.targetLocale],
 	"from":     vars.sourceLocale
 }]]]></http:body>
-      <http:headers ><![CDATA[#[{
+      <http:headers><![CDATA[#[{
 	"X-API-Key":    p("secure::lecto.apiKey")
 }]]]></http:headers>
     </http:request>
-    <flow-ref doc:name="callChatGPT" doc:id="abcc2cec-d6af-4126-9657-03769695bae6" name="callChatGPT"/>
-    <logger level="INFO" doc:name="Logger" doc:id="66f59b7b-fe81-4553-83c1-5bd7dc485040" />
+    <flow-ref
+      doc:name="callChatGPT"
+      doc:id="abcc2cec-d6af-4126-9657-03769695bae6"
+      name="callChatGPT" />
+    <logger
+      level="INFO"
+      doc:name="Logger"
+      doc:id="66f59b7b-fe81-4553-83c1-5bd7dc485040" />
   </flow>
-  <sub-flow name="callChatGPT" doc:id="5b0b5a60-c2fb-4ae7-a857-1ab73fe56d10" >
-    <http:request method="POST" doc:name="Call ChatGPT API - Convert Spanish to English" doc:id="9bed9a40-faa5-41f7-91a5-f866677ffddc" url="${chatGPT.url}">
-			<http:body><![CDATA[#[output application/json
+  <sub-flow
+    name="callChatGPT"
+    doc:id="5b0b5a60-c2fb-4ae7-a857-1ab73fe56d10">
+    <http:request
+      method="POST"
+      doc:name="Call ChatGPT API - Convert Spanish to English"
+      doc:id="9bed9a40-faa5-41f7-91a5-f866677ffddc"
+      url="${chatGPT.url}">
+      <http:body><![CDATA[#[output application/json
 ---
 {
- "model":         "gpt-3.5-turbo",
+ "model":         p("chatGPT.model"),
  "messages":
     [{
  	   "role":    "user",
@@ -140,16 +230,18 @@ payload]]></ee:set-payload>
     }],
  "temperature":    0.7
 }]]]></http:body>
-			<http:headers><![CDATA[#[output text/plain
+      <http:headers><![CDATA[#[output text/plain
 ---
 {
 	"Authorization" : "Bearer " ++ p("secure::chatGPT.apiKey"),
 	"Content-Type" : "application/json"
 }]]]></http:headers>
-		</http:request>
-    <ee:transform doc:name="Transform Message" doc:id="204c335c-9017-4455-93aa-53a89c5d302d" >
-      <ee:message >
-        <ee:set-payload ><![CDATA[%dw 2.0
+    </http:request>
+    <ee:transform
+      doc:name="Transform Message"
+      doc:id="204c335c-9017-4455-93aa-53a89c5d302d">
+      <ee:message>
+        <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
@@ -163,8 +255,18 @@ output application/json
       </ee:message>
     </ee:transform>
   </sub-flow>
-  <sub-flow name="setSourceAndTargetLocales" doc:id="87773dbd-0b29-435e-ae0f-e850f6f1d15b">
-    <set-variable value="#[import setLocale from myModule::utils&#10;---&#10;setLocale(vars.inputData.'source_lang' as String)]" doc:name="sourceLocale" doc:id="1baa958f-9533-440a-8a2c-6e7c452fc8f6" variableName="sourceLocale" />
-    <set-variable value="#[import setLocale from myModule::utils&#10;---&#10;setLocale(vars.inputData.'target_lang' as String)]" doc:name="targetLocale" doc:id="bb0234ff-7164-4066-9498-95eaf63d762e" variableName="targetLocale" />
+  <sub-flow
+    name="setSourceAndTargetLocales"
+    doc:id="87773dbd-0b29-435e-ae0f-e850f6f1d15b">
+    <set-variable
+      value="#[import setLocale from myModule::utils&#10;---&#10;setLocale(vars.inputData.'source_lang' as String)]"
+      doc:name="sourceLocale"
+      doc:id="1baa958f-9533-440a-8a2c-6e7c452fc8f6"
+      variableName="sourceLocale" />
+    <set-variable
+      value="#[import setLocale from myModule::utils&#10;---&#10;setLocale(vars.inputData.'target_lang' as String)]"
+      doc:name="targetLocale"
+      doc:id="bb0234ff-7164-4066-9498-95eaf63d762e"
+      variableName="targetLocale" />
   </sub-flow>
 </mule>

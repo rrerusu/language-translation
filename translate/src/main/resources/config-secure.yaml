@@ -1,6 +1,6 @@
 # APIKey for NLP Cloud API connection
 nlp:
-  apiKey: "![ITCpRzKhGQnE1L/69Sx+KOTCGCtcKqMOmJ4LM0yy59Alqb283P0KVjY0ZrHXyo04]"
+  apiKey: "![EqjgRKuunw3LF/Occ3SymnCSlgyKgGz8shoZIUM/YWhPxFM70+49VNdPXYnyh/94]"
 
 # APIKey for ChatGPT connection
 chatGPT:
@@ -12,4 +12,4 @@ translate:
 
 # APIKey for Lecto API connection
 lecto:
-  apiKey: "![LDrLCThbBr28Lnr+JuL1boTiSFbut6rMApy/dKOYtMY=]"
+  apiKey: "![kdWCGZ4QC9G6tL64BBFLk0L94IAirHAA1RPwWDsseq8=]"

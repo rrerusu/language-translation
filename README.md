@@ -2,6 +2,11 @@ The folders in this directory represent **Mule projects** that translate too and
 
 ### Translation API
 
+#### Rev 5: Implementation of multiple language translations based on API specification
+
+Implemented multiple translation APIs and deployed to Cloudhub.
+API can be accessed from the following URL: http://ruke-translate.us-e2.cloudhub.io/console/
+
 #### Rev 4: Support for multi-language translations
 
 Defined RAML specification to support multiple translation APIs using Anypoint Platform Design Center and published v1.0.0 to Exchange.  The initial API specification can be accessible from the public portal at https://anypoint.mulesoft.com/exchange/portals/translate-inc/

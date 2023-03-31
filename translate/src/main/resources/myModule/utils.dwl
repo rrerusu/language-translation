@@ -11,3 +11,18 @@ fun setLocale(language: String) =
 		"fr"
 	else
 		"en"
+
+
+// Function for NLP Cloud API
+fun setLocaleNLP(language: String) = 
+	using(lang = lower(language))			// "using" creates local variable
+	if(lang == "german" )
+		"deu_Latn"
+	else
+	if(lang == "spanish")
+		"spa_Latn"
+	else
+	if(lang == "french")
+		"fra_Latn"
+	else
+		"eng_Latn"
