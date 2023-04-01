@@ -1,4 +1,4 @@
-The folders in this directory represent **Mule projects** that translate too and from languages.
+The folders in this directory represent **Mule projects** that translate to and from languages.
 
 ### Translation API
 
