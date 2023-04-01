@@ -2,6 +2,23 @@ The folders in this directory represent **Mule projects** that translate too and
 
 ### Translation API
 
+#### Rev 6: Error Handling, Code Cleanup, Support for following additional languages
+
+- [New Locale codes for NLP Cloud API](https://docs.nlpcloud.com/#translation)
+	 - Japanese: `jpn_Jpan`
+	 - Chinese: `zho_Hans`
+	 - Arabic: `arb_Arab`
+	 - Korean: `kor_Hang`
+	 - Hindi: `hin_Deva`
+	 - Telugu: `tel_Telu`
+- [New Locale codes for All other APIs](https://developers.google.com/admin-sdk/directory/v1/languages)
+	 - Japanese: `ja`
+	 - Chinese: `zh`
+	 - Arabic: `ar`
+	 - Korean: `ko`
+	 - Hindi: `hi`
+	 - Telugu: `te`
+
 #### Rev 5: Implementation of multiple language translations based on API specification
 
 Implemented multiple translation APIs and deployed to Cloudhub.

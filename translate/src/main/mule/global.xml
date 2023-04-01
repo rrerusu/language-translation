@@ -21,14 +21,10 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
       port="${http.port}" />
   </http:listener-config>
   
-  
-  
   <configuration-properties
     doc:name="Configuration properties"
     doc:id="a4e1b249-5291-42a1-adbe-a6ddeaea2b78"
     file="config.yaml" />
-    
-    
     
   <secure-properties:config
     name="Secure_Properties_Config"
@@ -39,7 +35,9 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
     <secure-properties:encrypt algorithm="Blowfish" />
   </secure-properties:config>
   
-  
-  
-  
+  <configuration
+    doc:name="Configuration"
+    doc:id="c642aa4f-37fb-437d-b593-65d0554254f3"
+    defaultErrorHandler-ref="globalErrorHandler" />
+    
 </mule>
